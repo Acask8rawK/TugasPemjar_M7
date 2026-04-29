@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard Admin — WashQueue</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface2: #21262d;
+      --accent: #00d4aa;
+      --accent2: #0099ff;
+      --warn: #f0a500;
+      --done: #3fb950;
+      --danger: #f85149;
+      --text: #e6edf3;
+      --muted: #7d8590;
+      --border: #30363d;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 2rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      color: var(--accent);
+    }
+    .logo span { color: var(--text); }
+    .nav-badge {
+      background: var(--danger);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+      letter-spacing: 0.5px;
+    }
+    .nav-links { display: flex; gap: 1rem; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      padding: 0.4rem 0.9rem;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+    .nav-links a:hover { background: var(--surface2); color: var(--text); }
+    .nav-links a.active { background: var(--accent); color: #000; font-weight: 500; }
+
+    .admin-wrap {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1.5rem 4rem;
+    }
+
+    .admin-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .admin-header h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+    }
+    .admin-header p { color: var(--muted); font-size: 0.88rem; margin-top: 0.2rem; }
+
+    /* STATS */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.2rem 1.4rem;
+    }
+    .stat-label { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      margin-top: 0.3rem;
+    }
+
+    /* SECTION LABEL */
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.75rem;
+      margin-top: 2rem;
+    }
+
+    /* QUEUE CARDS */
+    .queue-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .queue-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      transition: border-color 0.2s;
+    }
+    .queue-card:hover { border-color: var(--accent); }
+    .queue-card.dipanggil { border-color: rgba(0,153,255,0.4); background: rgba(0,153,255,0.04); }
+    .queue-card.selesai { opacity: 0.5; }
+
+    .card-nomor {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--accent);
+      min-width: 50px;
+      text-align: center;
+    }
+    .card-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      flex-shrink: 0;
+    }
+    .card-info { flex: 1; min-width: 160px; }
+    .card-nama {
+      font-weight: 600;
+      font-size: 0.98rem;
+      margin-bottom: 0.25rem;
+    }
+    .card-meta { font-size: 0.82rem; color: var(--muted); }
+
+    .status-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .status-menunggu { background: rgba(240,165,0,0.15); color: var(--warn); }
+    .status-dipanggil { background: rgba(0,153,255,0.15); color: var(--accent2); }
+    .status-selesai { background: rgba(63,185,80,0.15); color: var(--done); }
+
+    .card-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+
+    .btn {
+      padding: 0.5rem 1.1rem;
+      border-radius: 7px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .btn-call {
+      background: var(--accent2);
+      color: #fff;
+    }
+    .btn-call:hover { background: #007acc; transform: translateY(-1px); }
+    .btn-done {
+      background: var(--done);
+      color: #000;
+    }
+    .btn-done:hover { background: #2ea043; transform: translateY(-1px); }
+    .btn-disabled {
+      background: var(--surface2);
+      color: var(--muted);
+      cursor: not-allowed;
+    }
+
+    /* UDP LOG */
+    .udp-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 2rem;
+    }
+    .udp-header {
+      background: var(--surface2);
+      padding: 0.8rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .udp-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--done);
+      box-shadow: 0 0 6px var(--done);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .udp-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+    .udp-body {
+      padding: 1rem 1.2rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.8rem;
+      color: var(--done);
+      min-height: 80px;
+      background: #0a0e14;
+    }
+    .udp-body .log-line { margin-bottom: 0.3rem; }
+    .udp-body .log-line .ts { color: var(--muted); margin-right: 0.5rem; }
+    .udp-idle { color: var(--muted); font-style: italic; }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--muted);
+    }
+    .empty-state .icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .empty-state a {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.6rem 1.5rem;
+      background: var(--accent);
+      color: #000;
+      border-radius: 7px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Wash<span>Queue</span> <span class="nav-badge">ADMIN</span></div>
+  <div class="nav-links">
+    <a href="/">Antrian</a>
+    <a href="/daftar">Daftar</a>
+    <a href="/admin" class="active">Admin</a>
+  </div>
+</nav>
+
+<div class="admin-wrap">
+
+  {% set menunggu = antrian | selectattr('status', 'equalto', 'Menunggu') | list %}
+  {% set dipanggil = antrian | selectattr('status', 'equalto', 'Dipanggil') | list %}
+  {% set selesai = antrian | selectattr('status', 'equalto', 'Selesai') | list %}
+
+  <div class="admin-header">
+    <div>
+      <h1>Dashboard Admin</h1>
+      <p>Kelola antrian cuci kendaraan · TCP/HTTP + UDP Broadcast aktif</p>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-label">Total</div>
+      <div class="stat-num">{{ antrian | length }}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Menunggu</div>
+      <div class="stat-num" style="color: var(--warn)">{{ menunggu | length }}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Dipanggil</div>
+      <div class="stat-num" style="color: var(--accent2)">{{ dipanggil | length }}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Selesai</div>
+      <div class="stat-num" style="color: var(--done)">{{ selesai | length }}</div>
+    </div>
+  </div>
+
+  {% if antrian %}
+
+    {% if menunggu %}
+    <div class="section-label">🟡 Menunggu ({{ menunggu | length }})</div>
+    <div class="queue-list">
+      {% for item in menunggu %}
+      <div class="queue-card">
+        <div class="card-nomor">#{{ item.nomor }}</div>
+        <div class="card-divider"></div>
+        <div class="card-info">
+          <div class="card-nama">{{ item.nama }}</div>
+          <div class="card-meta">{{ item.jenis }} &nbsp;·&nbsp; {{ item.no_hp }} &nbsp;·&nbsp; {{ item.email }}</div>
+        </div>
+        <span class="status-badge status-menunggu">Menunggu</span>
+        <div class="card-actions">
+          <a href="/panggil/{{ item.nomor }}" class="btn btn-call">📢 Panggil</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if dipanggil %}
+    <div class="section-label">🔵 Sedang Dipanggil ({{ dipanggil | length }})</div>
+    <div class="queue-list">
+      {% for item in dipanggil %}
+      <div class="queue-card dipanggil">
+        <div class="card-nomor">#{{ item.nomor }}</div>
+        <div class="card-divider"></div>
+        <div class="card-info">
+          <div class="card-nama">{{ item.nama }}</div>
+          <div class="card-meta">{{ item.jenis }} &nbsp;·&nbsp; {{ item.no_hp }} &nbsp;·&nbsp; {{ item.email }}</div>
+        </div>
+        <span class="status-badge status-dipanggil">Dipanggil</span>
+        <div class="card-actions">
+          <a href="/selesai/{{ item.nomor }}" class="btn btn-done">✅ Tandai Selesai</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if selesai %}
+    <div class="section-label">✅ Selesai ({{ selesai | length }})</div>
+    <div class="queue-list">
+      {% for item in selesai %}
+      <div class="queue-card selesai">
+        <div class="card-nomor">#{{ item.nomor }}</div>
+        <div class="card-divider"></div>
+        <div class="card-info">
+          <div class="card-nama">{{ item.nama }}</div>
+          <div class="card-meta">{{ item.jenis }} &nbsp;·&nbsp; {{ item.no_hp }}</div>
+        </div>
+        <span class="status-badge status-selesai">Selesai</span>
+        <div class="card-actions">
+          <span class="btn btn-disabled">— Selesai —</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+  {% else %}
+  <div class="empty-state">
+    <div class="icon">📋</div>
+    <p>Belum ada antrian masuk hari ini.</p>
+    <a href="/daftar">+ Tambah Antrian Manual</a>
+  </div>
+  {% endif %}
+
+  <!-- UDP Log Panel -->
+  <div class="udp-panel">
+    <div class="udp-header">
+      <div class="udp-dot"></div>
+      <div class="udp-title">UDP Broadcast Monitor</div>
+      <span style="font-size:0.75rem; color: var(--muted); margin-left: auto;">Port 5005 · 255.255.255.255</span>
+    </div>
+    <div class="udp-body">
+      <div class="log-line udp-idle">// Broadcast log tampil di terminal server (udp_listener.py)</div>
+      <div class="log-line udp-idle">// Setiap aksi Panggil / Selesai akan mengirim paket UDP ke LAN</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
