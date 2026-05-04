@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Database Viewer</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+    h2 { color: #1F3864; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 30px; background: white; }
+    th { background: #2E5FA3; color: white; padding: 10px; }
+    td { padding: 8px 12px; border: 1px solid #ddd; }
+    tr:nth-child(even) { background: #f0f4fb; }
+  </style>
+</head>
+<body>
+  <h2>Tabel: antrian</h2>
+  <table>
+    <tr>
+      <th>ID</th><th>Nomor</th><th>Nama</th>
+      <th>Jenis</th><th>Email</th><th>No HP</th><th>Status</th>
+    </tr>
+    {% for row in antrian_rows %}
+    <tr>
+      {% for col in row %}<td>{{ col }}</td>{% endfor %}
+    </tr>
+    {% endfor %}
+  </table>
+
+  <h2>Tabel: email_log</h2>
+  <table>
+    <tr>
+      <th>ID</th><th>Nomor</th><th>Email</th><th>Status</th><th>Waktu</th>
+    </tr>
+    {% for row in email_rows %}
+    <tr>
+      {% for col in row %}<td>{{ col }}</td>{% endfor %}
+    </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>

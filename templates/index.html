@@ -26,7 +26,6 @@
       min-height: 100vh;
     }
 
-    /* NAV */
     nav {
       display: flex;
       justify-content: space-between;
@@ -58,7 +57,6 @@
     .nav-links a:hover { background: var(--surface2); color: var(--text); }
     .nav-links a.active { background: var(--accent); color: #000; font-weight: 500; }
 
-    /* HERO */
     .hero {
       text-align: center;
       padding: 3.5rem 2rem 2rem;
@@ -98,15 +96,7 @@
       color: #000;
     }
     .btn-primary:hover { background: #00bfa0; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0,212,170,0.3); }
-    .btn-outline {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border);
-      margin-left: 0.75rem;
-    }
-    .btn-outline:hover { background: var(--surface2); }
 
-    /* STATS */
     .stats {
       display: flex;
       justify-content: center;
@@ -130,7 +120,6 @@
     }
     .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
 
-    /* TABLE */
     .section {
       max-width: 900px;
       margin: 0 auto;
@@ -138,7 +127,6 @@
     }
     .section-title {
       font-family: 'Syne', sans-serif;
-      font-size: 1.1rem;
       font-weight: 700;
       margin-bottom: 1rem;
       color: var(--muted);
@@ -188,9 +176,9 @@
       font-size: 0.78rem;
       font-weight: 600;
     }
-    .status-menunggu { background: rgba(240,165,0,0.15); color: var(--warn); }
-    .status-dipanggil { background: rgba(0,153,255,0.15); color: var(--accent2); }
-    .status-selesai { background: rgba(63,185,80,0.15); color: var(--done); }
+    .status-menunggu  { background: rgba(240,165,0,0.15);  color: var(--warn);    }
+    .status-dipanggil { background: rgba(0,153,255,0.15);  color: var(--accent2); }
+    .status-selesai   { background: rgba(63,185,80,0.15);  color: var(--done);    }
 
     .empty-state {
       text-align: center;
@@ -216,7 +204,7 @@
   <div class="nav-links">
     <a href="/" class="active">Antrian</a>
     <a href="/daftar">Daftar</a>
-    <a href="/admin">Admin</a>
+    <!-- Admin sengaja tidak ditampilkan di sini -->
   </div>
 </nav>
 
@@ -224,12 +212,12 @@
   <h1>Sistem Antrian<br/><span class="highlight">Cuci Kendaraan</span></h1>
   <p>Pantau posisi antrian Anda secara real-time. Kami akan memberi tahu saat giliran Anda tiba.</p>
   <a href="/daftar" class="btn btn-primary">+ Daftar Antrian</a>
-  <a href="/admin" class="btn btn-outline">Dashboard Admin</a>
+  <!-- Tombol Dashboard Admin sengaja dihapus -->
 </div>
 
-{% set menunggu = antrian | selectattr('status', 'equalto', 'Menunggu') | list %}
+{% set menunggu  = antrian | selectattr('status', 'equalto', 'Menunggu')  | list %}
 {% set dipanggil = antrian | selectattr('status', 'equalto', 'Dipanggil') | list %}
-{% set selesai = antrian | selectattr('status', 'equalto', 'Selesai') | list %}
+{% set selesai   = antrian | selectattr('status', 'equalto', 'Selesai')   | list %}
 
 <div class="stats">
   <div class="stat-card">

@@ -89,7 +89,6 @@
     }
     .admin-header p { color: var(--muted); font-size: 0.88rem; margin-top: 0.2rem; }
 
-    /* STATS */
     .stats-row {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -110,7 +109,6 @@
       margin-top: 0.3rem;
     }
 
-    /* SECTION LABEL */
     .section-label {
       font-size: 0.75rem;
       font-weight: 600;
@@ -121,7 +119,6 @@
       margin-top: 2rem;
     }
 
-    /* QUEUE CARDS */
     .queue-list { display: flex; flex-direction: column; gap: 0.75rem; }
 
     .queue-card {
@@ -148,17 +145,12 @@
       text-align: center;
     }
     .card-divider {
-      width: 1px;
-      height: 40px;
+      width: 1px; height: 40px;
       background: var(--border);
       flex-shrink: 0;
     }
     .card-info { flex: 1; min-width: 160px; }
-    .card-nama {
-      font-weight: 600;
-      font-size: 0.98rem;
-      margin-bottom: 0.25rem;
-    }
+    .card-nama { font-weight: 600; font-size: 0.98rem; margin-bottom: 0.25rem; }
     .card-meta { font-size: 0.82rem; color: var(--muted); }
 
     .status-badge {
@@ -168,9 +160,9 @@
       font-size: 0.78rem;
       font-weight: 600;
     }
-    .status-menunggu { background: rgba(240,165,0,0.15); color: var(--warn); }
-    .status-dipanggil { background: rgba(0,153,255,0.15); color: var(--accent2); }
-    .status-selesai { background: rgba(63,185,80,0.15); color: var(--done); }
+    .status-menunggu  { background: rgba(240,165,0,0.15);  color: var(--warn);   }
+    .status-dipanggil { background: rgba(0,153,255,0.15);  color: var(--accent2);}
+    .status-selesai   { background: rgba(63,185,80,0.15);  color: var(--done);   }
 
     .card-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
 
@@ -187,23 +179,14 @@
       align-items: center;
       gap: 0.35rem;
     }
-    .btn-call {
-      background: var(--accent2);
-      color: #fff;
-    }
+    .btn-call { background: var(--accent2); color: #fff; }
     .btn-call:hover { background: #007acc; transform: translateY(-1px); }
-    .btn-done {
-      background: var(--done);
-      color: #000;
-    }
+    .btn-done { background: var(--done); color: #000; }
     .btn-done:hover { background: #2ea043; transform: translateY(-1px); }
-    .btn-disabled {
-      background: var(--surface2);
-      color: var(--muted);
-      cursor: not-allowed;
-    }
+    .btn-disabled { background: var(--surface2); color: var(--muted); cursor: not-allowed; }
+    .btn-db { background: var(--surface2); color: var(--muted); border: 1px solid var(--border); font-size: 0.78rem; }
+    .btn-db:hover { color: var(--text); border-color: var(--muted); }
 
-    /* UDP LOG */
     .udp-panel {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -230,11 +213,7 @@
       0%, 100% { opacity: 1; }
       50% { opacity: 0.4; }
     }
-    .udp-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 700;
-    }
+    .udp-title { font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 700; }
     .udp-body {
       padding: 1rem 1.2rem;
       font-family: 'Courier New', monospace;
@@ -243,8 +222,6 @@
       min-height: 80px;
       background: #0a0e14;
     }
-    .udp-body .log-line { margin-bottom: 0.3rem; }
-    .udp-body .log-line .ts { color: var(--muted); margin-right: 0.5rem; }
     .udp-idle { color: var(--muted); font-style: italic; }
 
     .empty-state {
@@ -273,21 +250,22 @@
   <div class="nav-links">
     <a href="/">Antrian</a>
     <a href="/daftar">Daftar</a>
-    <a href="/admin" class="active">Admin</a>
+    <!-- Tidak ada link /admin di sini supaya tidak bocor ke publik -->
   </div>
 </nav>
 
 <div class="admin-wrap">
 
-  {% set menunggu = antrian | selectattr('status', 'equalto', 'Menunggu') | list %}
+  {% set menunggu  = antrian | selectattr('status', 'equalto', 'Menunggu')  | list %}
   {% set dipanggil = antrian | selectattr('status', 'equalto', 'Dipanggil') | list %}
-  {% set selesai = antrian | selectattr('status', 'equalto', 'Selesai') | list %}
+  {% set selesai   = antrian | selectattr('status', 'equalto', 'Selesai')   | list %}
 
   <div class="admin-header">
     <div>
       <h1>Dashboard Admin</h1>
       <p>Kelola antrian cuci kendaraan · TCP/HTTP + UDP Broadcast aktif</p>
     </div>
+    <a href="/{{ secret }}/db-view" class="btn btn-db">🗄️ Lihat Database</a>
   </div>
 
   <div class="stats-row">
@@ -324,7 +302,7 @@
         </div>
         <span class="status-badge status-menunggu">Menunggu</span>
         <div class="card-actions">
-          <a href="/panggil/{{ item.nomor }}" class="btn btn-call">📢 Panggil</a>
+          <a href="/{{ secret }}/panggil/{{ item.nomor }}" class="btn btn-call">📢 Panggil</a>
         </div>
       </div>
       {% endfor %}
@@ -344,7 +322,7 @@
         </div>
         <span class="status-badge status-dipanggil">Dipanggil</span>
         <div class="card-actions">
-          <a href="/selesai/{{ item.nomor }}" class="btn btn-done">✅ Tandai Selesai</a>
+          <a href="/{{ secret }}/selesai/{{ item.nomor }}" class="btn btn-done">✅ Tandai Selesai</a>
         </div>
       </div>
       {% endfor %}
@@ -379,7 +357,6 @@
   </div>
   {% endif %}
 
-  <!-- UDP Log Panel -->
   <div class="udp-panel">
     <div class="udp-header">
       <div class="udp-dot"></div>
@@ -387,12 +364,11 @@
       <span style="font-size:0.75rem; color: var(--muted); margin-left: auto;">Port 5005 · 255.255.255.255</span>
     </div>
     <div class="udp-body">
-      <div class="log-line udp-idle">// Broadcast log tampil di terminal server (udp_listener.py)</div>
-      <div class="log-line udp-idle">// Setiap aksi Panggil / Selesai akan mengirim paket UDP ke LAN</div>
+      <div class="udp-idle">// Broadcast log tampil di terminal server (udp_listener.py)</div>
+      <div class="udp-idle">// Setiap aksi Panggil / Selesai akan mengirim paket UDP ke LAN</div>
     </div>
   </div>
 
 </div>
-
 </body>
 </html>
