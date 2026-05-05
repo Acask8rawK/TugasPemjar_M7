@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(gsd-docs-update)",
+      "Bash(python *)",
+      "PowerShell(New-Item *)",
+      "PowerShell(python -m unittest discover -s tests -p \"test_admin_auth.py\" -v)",
+      "PowerShell(python -c \"import dotenv; print\\('dotenv ok'\\)\")",
+      "PowerShell(git restore *)",
+      "PowerShell(python -m py_compile app.py create_admin.py tcp_email_notif.py udp_listener.py cek_db.py)",
+      "mcp__plugin_playwright_playwright__browser_navigate",
+      "mcp__plugin_playwright_playwright__browser_snapshot",
+      "mcp__plugin_playwright_playwright__browser_fill_form",
+      "mcp__plugin_playwright_playwright__browser_click",
+      "mcp__plugin_playwright_playwright__browser_close",
+      "PowerShell(Remove-Item *)"
+    ]
+  }
+}

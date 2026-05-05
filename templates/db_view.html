@@ -12,6 +12,14 @@
   </style>
 </head>
 <body>
+  <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+    <a href="/admin">← Kembali ke dashboard</a>
+    <form method="POST" action="/admin/logout" style="display:inline; margin:0;">
+      <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}" />
+      <button type="submit">Logout</button>
+    </form>
+  </div>
+
   <h2>Tabel: antrian</h2>
   <table>
     <tr>

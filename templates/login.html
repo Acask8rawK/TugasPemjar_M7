@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Admin — WashQueue</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #0d1117; color: #e6edf3; margin: 0; }
+    .wrap { max-width: 420px; margin: 5rem auto; padding: 2rem; background: #161b22; border: 1px solid #30363d; border-radius: 12px; }
+    label { display: block; margin: 1rem 0 0.35rem; }
+    input { width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid #30363d; background: #21262d; color: #e6edf3; box-sizing: border-box; }
+    button { width: 100%; margin-top: 1.2rem; padding: 0.8rem; border: 0; border-radius: 8px; background: #00d4aa; font-weight: 700; cursor: pointer; }
+    .error { margin-top: 1rem; color: #f85149; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>Login Admin</h1>
+    <p>Masuk untuk mengakses dashboard admin.</p>
+    {% if error %}
+    <p class="error">{{ error }}</p>
+    {% endif %}
+    <form method="POST" action="/admin/login">
+      <label for="username">Username</label>
+      <input id="username" name="username" type="text" autocomplete="username" required />
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" required />
+      <button type="submit">Masuk</button>
+    </form>
+  </main>
+</body>
+</html>
