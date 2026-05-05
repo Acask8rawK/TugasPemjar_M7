@@ -102,26 +102,7 @@ Syarat yang terlihat terpenuhi:
 
 ---
 
-## 8) Cek PDF: sudah cocok atau belum?
-
-File yang dicek: `T7_Pemjar_WashQueue_Kel1.pdf`
-
-### Yang sudah cocok
-- HTTP/TCP untuk web access: **cocok**.
-- SMTP/TCP (+ TLS 587) untuk email notifikasi: **cocok**.
-- UDP broadcast untuk notifikasi LAN: **cocok**.
-- Penggunaan threading agar admin page tidak terasa lag saat kirim email: **cocok** dengan `threading.Thread` di `app.py`.
-
-### Yang perlu direvisi
-- Beberapa bagian PDF menyebut data pendaftaran masuk ke **database/SQLite**.
-- Implementasi saat ini **belum database**; masih list in-memory: `antrian = []` di `app.py:9`.
-
-Saran kalimat revisi:
-> “Saat ini data antrian disimpan sementara di memori server (list Python), belum persisten ke database.”
-
----
-
-## 9) Kesimpulan singkat
+## 8) Kesimpulan singkat
 
 - **POST antrian** = HTTP method di atas TCP.
 - **Notifikasi email** = SMTP di atas TCP, lalu diamankan TLS (STARTTLS).
