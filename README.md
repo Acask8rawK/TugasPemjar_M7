@@ -13,6 +13,8 @@ Pada versi 2, sistem tidak hanya menyimpan data di memori, tetapi sudah mengguna
 | 3 | Muhammad Ghifani Ikhsan | 51422061 |
 | 4 | Eva Meivina Dwiana | 50422472 |
 
+Catatan: NPM pada tabel di atas adalah Nomor Pokok Mahasiswa. Proyek ini bukan aplikasi Node.js dan tidak menggunakan package manager `npm`.
+
 ## Ringkasan Aplikasi
 
 Aplikasi ini digunakan untuk:
@@ -56,17 +58,74 @@ antrianCuci_kel1_v2/
 
 ## Cara Menjalankan Aplikasi
 
-### 1. Siapkan dependency Python
+### 1. Clone repository dari GitHub
 
-Jika belum ada Flask dan python-dotenv, install terlebih dahulu:
+Pastikan Git dan Python sudah terpasang di komputer kamu. Lalu buka terminal / PowerShell dan jalankan:
+
+```bash
+git clone <URL_REPOSITORY_GITHUB>
+cd antrianCuci_kel1_v2
+```
+
+Kalau berhasil, folder project akan terbentuk dan file seperti `app.py`, `tcp_email_notif.py`, `udp_listener.py`, dan folder `templates/` akan ikut terunduh.
+
+Cek cepat keberhasilan clone:
+
+```bash
+git status
+```
+
+atau lihat isi folder:
+
+```bash
+dir
+```
+
+Kalau masih ada pesan error seperti `git is not recognized`, berarti Git belum terpasang di komputer.
+
+### 2. Buat virtual environment
+
+Disarankan memakai virtual environment supaya library tidak bercampur dengan project lain.
+
+PowerShell:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+Kalau memakai Command Prompt:
+
+```cmd
+.venv\Scripts\activate.bat
+```
+
+Kalau berhasil, biasanya nama environment akan muncul di awal prompt terminal, misalnya `(.venv)`.
+
+### 3. Library yang perlu diinstall
+
+Install library Python berikut:
 
 ```bash
 pip install flask python-dotenv
 ```
 
-Modul `sqlite3`, `socket`, `threading`, `smtplib`, dan `email` sudah termasuk dalam standard library Python.
+| Package | Fungsi | Perlu diinstall manual? |
+|--------|--------|--------------------------|
+| `flask` | Web framework utama untuk server, route, dan template HTML | Ya |
+| `python-dotenv` | Membaca file `.env` untuk konfigurasi email | Ya |
+| `Jinja2`, `Werkzeug`, `click`, `itsdangerous`, `MarkupSafe` | Dependensi bawaan Flask | Tidak, ikut terpasang otomatis |
 
-### 2. Siapkan konfigurasi email
+Library bawaan Python berikut tidak perlu di-download terpisah karena sudah termasuk standard library:
+
+- `sqlite3`
+- `socket`
+- `threading`
+- `smtplib`
+- `email`
+- `os`
+
+### 4. Siapkan konfigurasi email
 
 Buat file `.env` di root project dengan format berikut:
 
@@ -77,7 +136,7 @@ EMAIL_PASSWORD=app_password_gmail
 
 Gunakan Gmail App Password, bukan password utama akun Google.
 
-### 3. Jalankan server Flask
+### 5. Jalankan server Flask
 
 ```bash
 python app.py
@@ -91,7 +150,7 @@ http://127.0.0.1:5000
 
 Di terminal, aplikasi juga menampilkan URL panel admin berdasarkan nilai `SECRET` di `app.py`.
 
-### 4. Jalankan UDP listener
+### 6. Jalankan UDP listener
 
 Buka terminal kedua, lalu jalankan:
 
@@ -101,7 +160,7 @@ python udp_listener.py
 
 Listener akan menunggu broadcast UDP pada port 5005. Untuk pengujian LAN, jalankan listener pada komputer yang berada di jaringan lokal yang sama dan pastikan firewall mengizinkan UDP port 5005.
 
-### 5. Melihat isi database dari terminal
+### 7. Melihat isi database dari terminal
 
 ```bash
 python cek_db.py
