@@ -13,8 +13,6 @@ Pada versi 2, sistem tidak hanya menyimpan data di memori, tetapi sudah mengguna
 | 3 | Muhammad Ghifani Ikhsan | 51422061 |
 | 4 | Eva Meivina Dwiana | 50422472 |
 
-Catatan: NPM pada tabel di atas adalah Nomor Pokok Mahasiswa. Proyek ini bukan aplikasi Node.js dan tidak menggunakan package manager `npm`.
-
 ## Ringkasan Aplikasi
 
 Aplikasi ini digunakan untuk:
